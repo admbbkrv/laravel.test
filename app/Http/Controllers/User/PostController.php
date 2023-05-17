@@ -35,6 +35,11 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
+        $validated = $request->validate([
+            'title' => ['required', 'string', 'max:100'],
+            'content' => ['required', 'string', 'max:10000'],
+        ]);
+        dd($validated);
         $title = $request->input('title');
         $content = $request->input('content');
         dd($title, $content);

@@ -27,7 +27,7 @@
                     <x-label required>
                         {{__('Содержимое поста')}}
                     </x-label>
-                    <input id="x" type="hidden" name="content">
+                    <x-input id="x" type="hidden" name="content"/>
                     <trix-editor input="x"></trix-editor>
                 </x-form-item>
 
