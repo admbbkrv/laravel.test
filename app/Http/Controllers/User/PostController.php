@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Post\StorePostRequest;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -35,14 +36,10 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $validated = validate($request->all(), [
             'title' => ['required', 'string', 'max:100'],
             'content' => ['required', 'string', 'max:10000'],
         ]);
-        dd($validated);
-        $title = $request->input('title');
-        $content = $request->input('content');
-        dd($title, $content);
     }
 
     public function show($post)
@@ -61,9 +58,10 @@ class PostController extends Controller
 
     public function update(Request $request)
     {
-        $title = $request->input('title');
-        $content = $request->input('content');
-        dd($title, $content,);
+        $validated = validate($request->all(), [
+            'title' => ['required', 'string', 'max:100'],
+            'content' => ['required', 'string', 'max:10000'],
+        ]);
     }
 
     public function delete()

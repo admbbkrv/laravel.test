@@ -21,6 +21,7 @@
                         {{__('Название поста')}}
                     </x-label>
                     <x-input name="title"></x-input>
+                    <x-error name="title" />
                 </x-form-item>
 
                 <x-form-item>
@@ -29,6 +30,7 @@
                     </x-label>
                     <x-input id="x" type="hidden" name="content"/>
                     <trix-editor input="x"></trix-editor>
+                    <x-error name="content" />
                 </x-form-item>
 
                 <x-button type="submit">
