@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\User\StoreUserRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class RegisterController extends Controller
@@ -11,14 +13,15 @@ class RegisterController extends Controller
         return view('register.index');
     }
 
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        $username = $request->input('username');
-        $email = $request->input('email');
-        $password = $request->input('password');
-        $agreement = $request->boolean('agreement');
+        $validated = $request->validated();
 
-        return redirect()->back()->withInput();
-//        return redirect()->route('user.index');
+        $user = new User;
+        $user->name = $validated['name'];
+        $user->email = $validated['email'];
+        $user->password = bcrypt($validated['password']);
+        $user->save();
+        return redirect()->route('user.index');
     }
 }

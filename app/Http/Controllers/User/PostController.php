@@ -4,6 +4,9 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Post\StorePostRequest;
+use App\Models\Post;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -34,12 +37,17 @@ class PostController extends Controller
         return view('user.posts.create');
     }
 
-    public function store(Request $request)
+    public function store(StorePostRequest $request)
     {
-        $validated = validate($request->all(), [
-            'title' => ['required', 'string', 'max:100'],
-            'content' => ['required', 'string', 'max:10000'],
-        ]);
+        $validated = $request->validated();
+        $post = new Post();
+        $post->title = $validated['title'];
+        $post->content = $validated['content'];
+        $post->user_id = User::query()->value('id') ?? null;
+        $post->published_at = new Carbon($validated['published_at'] ?? null);
+        $post->save();
+
+        return redirect()->route('user.index');
     }
 
     public function show($post)

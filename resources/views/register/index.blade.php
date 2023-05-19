@@ -8,7 +8,7 @@
             <x-card-title>
                 {{__('Регистрация')}}
             </x-card-title>
-            
+
             <x-slot name="right">
                 <a href="{{ route('login.index') }}">
                     {{ __('Вход') }}
@@ -22,7 +22,8 @@
                     <x-label required>
                         {{__('Имя')}}
                     </x-label>
-                    <x-input name="username"  class="form-control" autofocus />
+                    <x-input name="name"  class="form-control" autofocus />
+                    <x-error name="name" />
                 </x-form-item>
 
                 <x-form-item>
@@ -30,6 +31,7 @@
                         {{__('Email')}}
                     </x-label>
                     <x-input type="email" name="email"  />
+                    <x-error name="email" />
                 </x-form-item>
 
                 <x-form-item>
@@ -37,6 +39,7 @@
                         {{__('Пароль')}}
                     </x-label>
                     <x-input type="password" name="password"  />
+                    <x-error name="password" />
                 </x-form-item>
 
                 <x-form-item>
@@ -50,6 +53,7 @@
                     <x-checkbox name="agreement" :checked="!! old('agreement')">
                         {{ __('Я согласен на обработку пользовательских данных') }}
                     </x-checkbox>
+                    <x-error name="agreement" />
                 </x-form-item>
 
                 <x-button type="submit">

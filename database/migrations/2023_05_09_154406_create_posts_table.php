@@ -18,13 +18,13 @@ return new class extends Migration
 //            $table->bigIncrements('user_id')->unsigned()->nullable();
 //            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->nullable()->constrained();
 
             $table->string('title');
             $table->text('content');
 
             $table->boolean('published')->default(true);
-            $table->timestamp('published_at');
+            $table->timestamp('published_at')->nullable();
         });
     }
 
