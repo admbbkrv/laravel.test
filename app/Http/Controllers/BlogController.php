@@ -7,6 +7,7 @@ use App\Models\Car;
 use App\Models\Post;
 use Faker\Provider\Lorem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class BlogController extends Controller
 {
@@ -51,15 +52,43 @@ class BlogController extends Controller
 
 
 
-    public function show()
+    public function show(Request $request,/*Если используете кэширование, не указаывать класс*/ Post $post)
     {
+//        Если вы хотите использовать кэширование, то способ "Route Model Binding" не подойдет, так как он вызывая функцию, будет автоматически вызывать
+//        объект клаасс Post при каждом вызове функции. Следовательно, нужно принимать только id, а не объект класса.
+//        Пример кэширование ниже
+//        $post = cache()->remember(
+//            key: 'posts.{$post}',
+//            ttl: now()->addHour(),
+//            callback: function () use ($post) {
+//                return Post::query()->findOrFail($post, ['id', 'title', 'content']);
+//            }
+//        );
 
+//      Методы без задание класса перемонной $post (Post $post)
+//        $post = Post::query()->where('user_id', 123)->oldest('id')->first(['id', 'title']);
+//        $post = Post::query()->where('user_id', 123)->oldest('id')->firstOrFail(['id', 'title']);
+//        $post = Post::query()->find($post, ['id', 'title', 'content']);
+//        $post = Post::query()->findOrFail($post, ['id', 'title', 'content']);
 
-        $post = (object) [
-            'id' => '1',
-            'title' => 'Lorem ipsum dolor sit amet.',
-            'content' => 'Lorem ipsum <strong>dolor</strong> sit amet, consectetur adipisicing elit. Consequuntur, necessitatibus?'
-        ];
+//        $posts = Post::query()->find([1,5,14], ['id', 'title', 'content']);
+
+//       Если у вас таблице очень много записей и вам необходимо внести изменение в каждую запись, но вызвать все запись разом не является возможно в виду
+//        их большого количества. В таком случае используется метод класса Query 'chunk'. Пример использования приведен ниже.
+//        Post::query()
+//            ->chunk(10, function (Collection $posts){
+//                foreach ($posts as $post){
+//                    $post->update(['published' => true]);
+//                }
+//            });
+//          Если не нужно менять а все, а только некоторые
+//        Post::query()
+//            ->where('published', false) -
+//            ->chunkById(10, function (Collection $posts){
+//                foreach ($posts as $post){
+//                    $post->update(['published' => true]);
+//                }
+//            });
 
         return view('blog.show', compact('post'));
     }
