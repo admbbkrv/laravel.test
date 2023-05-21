@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Adam\Test;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Post\StorePostRequest;
+use App\Http\Requests\User\IndexUserRequest;
 use App\Models\Post;
 use App\Models\User;
 use Carbon\Carbon;
@@ -23,12 +25,9 @@ class PostController extends Controller
         $this->post = (object) $this->post;
     }
 
-    public function index()
+    public function index(IndexUserRequest $request)
     {
-
-
-        $posts = array_fill(0, 10, (object) $this->post);
-
+        $posts = Post::query()->latest('published_at')->oldest('id')->paginate(12, ['id', 'title', 'published_at']);
         return view('user.posts.index', compact('posts'));
     }
 
@@ -39,6 +38,16 @@ class PostController extends Controller
 
     public function store(StorePostRequest $request)
     {
+//        for ($i = 0; $i < 99; $i++){
+//            $post = new Post();
+//            $post->user_id = User::query()->value('id');
+//            $post->title = fake()->sentence(5);
+//            $post->content = fake()->paragraph();
+//            $post->published = true;
+//            $post->published_at = fake()->dateTimeBetween(now()->subYear(), now());
+//            $post->save();
+//        }
+
         $validated = $request->validated();
         $post = new Post();
         $post->title = $validated['title'];

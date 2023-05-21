@@ -20,4 +20,5 @@
             @endforeach
         @endif
     </x-row>
+    {{$posts->links()}}
 @endsection
