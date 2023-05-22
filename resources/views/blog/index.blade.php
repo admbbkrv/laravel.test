@@ -10,12 +10,12 @@
     @include('blog.filter-form')
 
     <x-row>
-        @if(empty($posts))
+        @if($posts->isEmpty())
             {{ __('Нет ни одного поста') }}
         @else
             @foreach($posts as $post)
                 <div class="col-12 col-md-4">
-                    <x-post.card href="{{route('blog.show', $post->id)}}" :post="$post"/>
+                    <x-post.card href="{{route('blog.show', $post)}}" :post="$post"/>
                 </div>
             @endforeach
         @endif

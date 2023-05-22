@@ -8,7 +8,7 @@
         </h2>
         <div class="small text-muted">
 {{--            {{ $post->published_at->format('d.m.y H:i') }}--}}
-            {{$post->published_at->diffForHumans()}}
+            {{$post->published_at?->diffForHumans()}}
         </div>
     </x-card-body>
     {{$post->id}}
